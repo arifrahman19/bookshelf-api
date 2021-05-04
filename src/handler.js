@@ -59,14 +59,13 @@ const addBooksHandler = (request, h) => {
 }
 
 const getAllBooksHandler = (request, h) => {
-  const params = request.query
-  if (params.name) {
-    const payload = []
-    books.forEach((book) => {
-      if (book.name.toLowerCase() === params.name.toLowerCase()) {
-        payload.push(book)
-      }
-    })
+  const { name, reading, finished } = request.query
+
+  // console.log(params.name)
+  if (name) {
+    const payload = books
+      .filter((book) => book.name.toLowerCase().includes(name.toLowerCase()))
+      .map((n) => { return { id: n.id, name: n.name, publisher: n.publisher } })
     const response = {
       status: 'success',
       data: {
@@ -76,9 +75,11 @@ const getAllBooksHandler = (request, h) => {
     return response
   }
 
-  if (params.reading) {
-    if (params.reading === 0) {
-      const payload = books.filter((book) => book.reading === false)
+  if (reading) {
+    if (reading === '0') {
+      const payload = books
+        .filter((book) => book.reading === false)
+        .map((n) => { return { id: n.id, name: n.name, publisher: n.publisher } })
       const response = {
         status: 'success',
         data: {
@@ -86,8 +87,10 @@ const getAllBooksHandler = (request, h) => {
         }
       }
       return response
-    } else if (params.reading === 1) {
-      const payload = books.filter((book) => book.reading === true)
+    } else if (reading === '1') {
+      const payload = books
+        .filter((book) => book.reading === true)
+        .map((n) => { return { id: n.id, name: n.name, publisher: n.publisher } })
       const response = {
         status: 'success',
         data: {
@@ -107,9 +110,11 @@ const getAllBooksHandler = (request, h) => {
     }
   }
 
-  if (params.finished) {
-    if (params.finished === 0) {
-      const payload = books.filter((book) => book.finished === false)
+  if (finished) {
+    if (finished === '0') {
+      const payload = books
+        .filter((book) => book.finished === false)
+        .map((n) => { return { id: n.id, name: n.name, publisher: n.publisher } })
       const response = {
         status: 'success',
         data: {
@@ -117,8 +122,10 @@ const getAllBooksHandler = (request, h) => {
         }
       }
       return response
-    } else if (params.finished === 1) {
-      const payload = books.filter((book) => book.finished === true)
+    } else if (finished === '1') {
+      const payload = books
+        .filter((book) => book.finished === true)
+        .map((n) => { return { id: n.id, name: n.name, publisher: n.publisher } })
       const response = {
         status: 'success',
         data: {
